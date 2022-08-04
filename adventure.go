@@ -28,7 +28,7 @@ import (
 
 func main() {
 	settings := cmd.Settings{AllowSave: true, Logger: false}
-	settings.App = app.NewWithID("Adventure")
+	settings.App = app.NewWithID("com.scsi.adventure")
 	settings.Window = settings.App.NewWindow("GO Adventure (by Bob)")
 	settings.App.Settings().SetTheme(&myTheme{})
 
