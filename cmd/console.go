@@ -5,8 +5,8 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"image/color"
 	"strings"
 )
 
@@ -108,7 +108,7 @@ func (c *Console) Speak(txt string) {
 		c.row = c.rowMax - len(lines)
 	}
 	for _, line := range lines {
-		t := canvas.NewText(line, color.Black)
+		t := canvas.NewText(line, theme.ForegroundColor())
 		t.TextStyle = c.font
 		c.view.Objects = append(c.view.Objects, t)
 		c.row++
