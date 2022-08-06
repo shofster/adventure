@@ -61,13 +61,16 @@ func NewConsole(prompt string, buttons []*widget.Button, rowMax int) *Console {
 	console.Focus = func() { settings.Window.Canvas().Focus(console.entry) }
 	return &console
 }
+func (c *Console) speakResponse(required string) {
+	c.Speak("\n" + c.prompt + required)
+}
 func (c *Console) Ask(required string) (b string) {
 	c.entry.SetText("")
 	c.entry.OnSubmitted = func(response string) {
 		if response == "" && required != "" {
-			c.Speak(c.prompt + required)
+			c.speakResponse(required)
 		} else {
-			c.Speak(c.prompt + response)
+			c.speakResponse(response)
 			c.wait <- response
 		}
 	}
@@ -81,7 +84,7 @@ func (c *Console) AskYesNo(required string) (b bool) {
 		if response != "" {
 			l := strings.ToLower(response)[:1]
 			if l == "y" || l == "n" {
-				c.Speak(Prompt + response)
+				c.speakResponse(response)
 				c.wait <- strings.ToLower(response)[:1]
 				return
 			}
@@ -97,6 +100,9 @@ func (c *Console) AskYesNo(required string) (b bool) {
 	return
 }
 func (c *Console) Speak(txt string) {
+	if txt == "" {
+		return
+	}
 	lines := strings.Split(txt, "\n")
 	if len(lines) > c.rowMax {
 		lines = lines[len(lines)-c.rowMax:]
