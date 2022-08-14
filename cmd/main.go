@@ -247,7 +247,7 @@ func croak() {
 * 'quitgame' (term_quit) if quitting,
 * 'endgame' (term_end) if died or won */
 func score(mode int) (int, int) {
-	score := 0
+	s := 0
 	/*  The present scoring algorithm is as follows:
 	 *     Objective:          Points:        Present total possible:
 	 *  Getting well into cave   25                    25
@@ -282,10 +282,10 @@ func score(mode int) (int, int) {
 				k = 16
 			}
 			if game.Prop[i] > STATE_NOTFOUND {
-				score += 2
+				s += 2
 			}
 			if game.Place[i] == LOC_BUILDING && game.Prop[i] == STATE_FOUND {
-				score += k - 2
+				s += k - 2
 			}
 			mxscor += k
 		}
@@ -296,59 +296,59 @@ func score(mode int) (int, int) {
 	 *  indicates whether he reached the endgame.  And if he got as far as
 	 *  "cave Closed" (indicated by "game.Closed"), then Bonus is zero for
 	 *  mundane exits or 133, 134, 135 if he blew it (so to speak). */
-	score += (NDEATHS - int(game.Numdie)) * 10
+	s += (NDEATHS - int(game.Numdie)) * 10
 	mxscor += NDEATHS * 10
 	if mode == term_end {
-		score += 4
+		s += 4
 	}
 	mxscor += 4
 	if game.Dflag != 0 {
-		score += 25
+		s += 25
 	}
 	mxscor += 25
 	if game.Closng {
-		score += 25
+		s += 25
 	}
 	mxscor += 25
 	if game.Closed {
 		switch game.Bonus {
 		case bonus_none:
-			score += 10
+			s += 10
 		case bonus_splatter:
-			score += 25
+			s += 25
 		case bonus_defeat:
-			score += 30
+			s += 30
 		case bonus_victory:
-			score += 45
+			s += 45
 
 		}
 	}
 	/* Did he come to Witt's End as he should? */
 	if game.Place[MAGAZINE] == LOC_WITTSEND {
-		score += 1
+		s += 1
 	}
 	mxscor += 1
 	/* Round it off. */
-	score += 2
+	s += 2
 	mxscor += 2
 	/* Deduct for hints/Turns/saves. Hints < 4 are special; see database desc. */
 	for i := 0; i < NHINTS; i++ {
 		if game.Hinted[i] {
-			score = score - hints[i].penalty
+			s = s - hints[i].penalty
 		}
 	}
 	if game.Novice {
-		score -= 5
+		s -= 5
 	}
 	if game.Clshnt {
-		score -= 10
+		s -= 10
 	}
-	score = score - game.Trnluz - game.Saved
+	s = s - game.Trnluz - game.Saved
 	/* Return to score command if that's where we came from. */
 	if mode == term_score {
 		speak(true, messages[GARNERED_POINTS], score, mxscor, game.Turns, plural(int(game.Turns)))
 	}
-	return score, mxscor
+	return s, mxscor
 }
 
 /* Dwarves move.  Return true if player survives, false if he dies. */
@@ -412,7 +412,7 @@ func dwarfMove() bool {
 	 *  move, they attack.  And, of course, dead dwarves don't do
 	 *  much of anything. */
 	game.Dtotal = 0
-	attack := 0
+	att := 0
 	stick := 0
 	for i := 1; i <= NDWARVES; i++ {
 		if game.Dloc[i] == 0 {
@@ -463,7 +463,7 @@ func dwarfMove() bool {
 		/* This threatening little dwarf is in the room with him! */
 		game.Dtotal++
 		if game.Odloc[i] == game.Dloc[i] {
-			attack++
+			att++
 			if game.Knfloc >= 0 {
 				game.Knfloc = game.Loc
 			}
@@ -481,13 +481,13 @@ func dwarfMove() bool {
 	} else {
 		speak(true, messages[DWARF_PACK], game.Dtotal)
 	}
-	if attack == 0 {
+	if att == 0 {
 		return true
 	}
 	if game.Dflag == 2 {
 		game.Dflag = 3
 	}
-	if attack > 1 {
+	if att > 1 {
 		speak(true, messages[THROWN_KNIVES], attack)
 		switch {
 		case stick == 0:

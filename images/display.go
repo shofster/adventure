@@ -36,7 +36,7 @@ func NewDisplay() *Display {
 		lower: container.NewMax(widget.NewLabel("PICTURE"))}
 	display.Content = container.NewMax(container.NewVSplit(display.upper, display.lower))
 	display.location = NewPane(display.upper, time.Duration(0))
-	display.picture = NewPane(display.lower, time.Duration(500*time.Millisecond))
+	display.picture = NewPane(display.lower, 500*time.Millisecond)
 	return &display
 }
 func NewPane(container *fyne.Container, duration time.Duration) Pane {

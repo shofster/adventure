@@ -1207,10 +1207,10 @@ func wake(verb VerbType, object ObjectType) PhaseCodeType {
 
 /* Set seed */
 func seed(verb VerbType, arg string) PhaseCodeType {
-	seed, err := strconv.Atoi(arg)
+	s, err := strconv.Atoi(arg)
 	if err == nil {
-		speak(true, actions[verb].message, seed)
-		setSeed(int32(seed))
+		speak(true, actions[verb].message, s)
+		setSeed(int32(s))
 		game.Turns++
 	}
 	return GO_TOP
