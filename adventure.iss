@@ -37,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 
 [Files]
-Source: "D:\devl\projects\go\adventure\fyne-cross\bin\windows-amd64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\devl\projects\go\adventure\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\devl\projects\go\adventure\ColossalCaveAdventureMap.pdf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\devl\projects\go\adventure\adventure_bear.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\devl\projects\go\adventure\adventure_fissure.json"; DestDir: "{app}"; Flags: ignoreversion

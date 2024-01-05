@@ -346,7 +346,7 @@ func score(mode int) (int, int) {
 	s = s - game.Trnluz - game.Saved
 	/* Return to score command if that's where we came from. */
 	if mode == term_score {
-		speak(true, messages[GARNERED_POINTS], score, mxscor, game.Turns, plural(int(game.Turns)))
+		speak(true, messages[GARNERED_POINTS], s, mxscor, game.Turns, plural(int(game.Turns)))
 	}
 	return s, mxscor
 }
